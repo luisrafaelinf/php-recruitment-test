@@ -1,11 +1,12 @@
 <?php
 
+
 interface Old_Legacy_CacheWarmer_Resolver_Interface
 {
     public function getIp($hostname);
 }
 
-class Old_Legacy_CacheWarmer_Resolver_Method implements Old_Legacy_CacheWarmer_Resolver_Interface 
+class Old_Legacy_CacheWarmer_Resolver_Method implements Old_Legacy_CacheWarmer_Resolver_Interface
 {
     public function getIp($hostname)
     {
@@ -20,7 +21,7 @@ class Old_Legacy_CacheWarmer_Actor
     public function setActor($callable) {
         $this->callable = $callable;
     }
-    
+
     public function act($hostname, $ip, $url)
     {
         call_user_func($this->callable, $hostname, $ip, $url);
@@ -65,6 +66,5 @@ class Old_Legacy_CacheWarmer_Warmer
         sleep(1); // this emulates visit to http://$hostname/$url via $ip
         $this->actor->act($this->hostname, $ip, $url);
     }
-    
-}
 
+}
