@@ -32,6 +32,9 @@ class WarmCommand
             $resolver = new \Old_Legacy_CacheWarmer_Resolver_Method();
             $actor = new \Old_Legacy_CacheWarmer_Actor();
             $actor->setActor(function ($hostname, $ip, $url) use ($output) {
+
+                $this->pageManager->updateDateTimePage($hostname, $url);
+
                 $output->writeln('Visited <info>http://' . $hostname . '/' . $url . '</info> via IP: <comment>' . $ip . '</comment>');
             });
             $warmer = new \Old_Legacy_CacheWarmer_Warmer();
