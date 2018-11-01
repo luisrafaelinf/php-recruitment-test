@@ -7,7 +7,10 @@ use Snowdog\DevTest\Model\UserManager;
 use Snowdog\DevTest\Model\WebsiteManager;
 use Snowdog\DevTest\Model\PageManager;
 
-class IndexAction
+use Snowdog\DevTest\Controller\AbstractController\ForbiddenAbstract;
+use Snowdog\DevTest\Constant\SessionValue;
+
+class IndexAction extends ForbiddenAbstract
 {
 
     /**
@@ -27,12 +30,12 @@ class IndexAction
 
     public function __construct(UserManager $userManager, WebsiteManager $websiteManager, PageManager $pageManager)
     {
+
         $this->websiteManager = $websiteManager;
         $this->pageManager = $pageManager;
 
-        if (isset($_SESSION['login'])) {
-            $this->user = $userManager->getByLogin($_SESSION['login']);
-        }
+        $this->user = $userManager->getByLogin($_SESSION[SessionValue::LOGIN]);
+
     }
 
     protected function getWebsites()
@@ -45,6 +48,10 @@ class IndexAction
 
     public function execute()
     {
+        if (!isset($_SESSION[SessionValue::LOGIN])) {
+            $this->forbidden();
+        }
+
         require __DIR__ . '/../view/index.phtml';
     }
 

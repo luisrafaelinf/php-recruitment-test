@@ -3,6 +3,9 @@
 use Snowdog\DevTest\Component\Menu;
 use Snowdog\DevTest\Component\RouteRepository;
 
+use Snowdog\DevTest\Constant\ConstantValue;
+use Snowdog\DevTest\Constant\SessionValue;
+
 session_start();
 
 $container = require __DIR__ . '/../app/bootstrap.php';
@@ -28,4 +31,16 @@ switch ($route[0]) {
         $parameters = $route[2];
         $container->call($controller, $parameters);
         break;
+}
+
+if (http_response_code() == ConstantValue::FORBIDDEN)
+{
+    if (!isset($_SESSION[SessionValue::LOGIN])) {
+        header('Location: /login');
+    } else {
+        header($_SERVER[SessionValue::SERVER_PROTOCOL] . "403 Forbidden");
+        require __DIR__ . '/../src/view/403.phtml';
+    }
+
+
 }

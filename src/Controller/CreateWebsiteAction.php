@@ -5,7 +5,10 @@ namespace Snowdog\DevTest\Controller;
 use Snowdog\DevTest\Model\UserManager;
 use Snowdog\DevTest\Model\WebsiteManager;
 
-class CreateWebsiteAction
+use Snowdog\DevTest\Controller\AbstractController\ForbiddenAbstract;
+use Snowdog\DevTest\Constant\SessionValue;
+
+class CreateWebsiteAction extends ForbiddenAbstract
 {
     /**
      * @var UserManager
@@ -24,6 +27,11 @@ class CreateWebsiteAction
 
     public function execute()
     {
+
+        if (!isset($_SESSION[SessionValue::LOGIN])) {
+            $this->forbidden();
+        }
+
         $name = $_POST['name'];
         $hostname = $_POST['hostname'];
 

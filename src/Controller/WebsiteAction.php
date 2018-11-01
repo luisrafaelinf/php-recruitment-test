@@ -7,7 +7,10 @@ use Snowdog\DevTest\Model\UserManager;
 use Snowdog\DevTest\Model\Website;
 use Snowdog\DevTest\Model\WebsiteManager;
 
-class WebsiteAction
+use Snowdog\DevTest\Controller\AbstractController\ForbiddenAbstract;
+use Snowdog\DevTest\Constant\SessionValue;
+
+class WebsiteAction extends ForbiddenAbstract
 {
 
     /**
@@ -36,24 +39,31 @@ class WebsiteAction
 
     public function execute($id)
     {
-        if (isset($_SESSION['login'])) {
+        if (!isset($_SESSION[SessionValue::LOGIN])) {
+            $this->forbidden();
+        } else {
+
             $user = $this->userManager->getByLogin($_SESSION['login']);
 
             $website = $this->websiteManager->getById($id);
 
-            if ($website->getUserId() == $user->getUserId()) {
+            if ($website and $website->getUserId() == $user->getUserId()) {
                 $this->website = $website;
+                require __DIR__ . '/../view/website.phtml';
+            } else {
+                $this->forbidden();
             }
+
         }
 
-        require __DIR__ . '/../view/website.phtml';
+
     }
 
     protected function getPages()
     {
         if($this->website) {
             return $this->pageManager->getAllByWebsite($this->website);
-        } 
+        }
         return [];
     }
 }

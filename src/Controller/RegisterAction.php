@@ -4,7 +4,10 @@ namespace Snowdog\DevTest\Controller;
 
 use Snowdog\DevTest\Model\UserManager;
 
-class RegisterAction
+use Snowdog\DevTest\Controller\AbstractController\ForbiddenAbstract;
+use Snowdog\DevTest\Constant\SessionValue;
+
+class RegisterAction extends ForbiddenAbstract
 {
 
     /**
@@ -19,11 +22,16 @@ class RegisterAction
 
     public function execute()
     {
+
+        if (!isset($_SESSION[SessionValue::LOGIN])) {
+            $this->forbidden();
+        }
+
         $password = $_POST['password'];
         $confirm = $_POST['confirm'];
         $name = $_POST['name'];
         $login = $_POST['login'];
-        
+
         if($password != $confirm) {
             $_SESSION['flash'] = 'Given passwords do not match';
         } else if (empty($password)) {
@@ -38,7 +46,7 @@ class RegisterAction
                 return;
             }
         }
-        
+
         header('Location: /register');
     }
 }
