@@ -14,15 +14,22 @@ class ComposerStaticInit56bfea591e0db9596e34154bc814875c
     );
 
     public static $prefixLengthsPsr4 = array (
+        'l' => 
+        array (
+            'luisrafaelinf\\SitemapImporter\\' => 30,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
             'Snowdog\\DevTest\\' => 16,
             'Silly\\' => 6,
         ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
+            'Psr\\Container\\' => 14,
             'PhpDocReader\\' => 13,
         ),
         'I' => 
@@ -41,9 +48,17 @@ class ComposerStaticInit56bfea591e0db9596e34154bc814875c
     );
 
     public static $prefixDirsPsr4 = array (
+        'luisrafaelinf\\SitemapImporter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/luisrafaelinf/sitemap-importer',
+        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Component\\Debug\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/debug',
         ),
         'Symfony\\Component\\Console\\' => 
         array (
@@ -56,6 +71,14 @@ class ComposerStaticInit56bfea591e0db9596e34154bc814875c
         'Silly\\' => 
         array (
             0 => __DIR__ . '/..' . '/mnapoli/silly/src',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
         ),
         'PhpDocReader\\' => 
         array (

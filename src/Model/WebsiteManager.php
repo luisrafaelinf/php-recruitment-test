@@ -15,7 +15,7 @@ class WebsiteManager
     {
         $this->database = $database;
     }
-    
+
     public function getById($websiteId) {
         /** @var \PDOStatement $query */
         $query = $this->database->prepare('SELECT * FROM websites WHERE website_id = :id');
@@ -24,6 +24,17 @@ class WebsiteManager
         $query->execute();
         /** @var Website $website */
         $website = $query->fetch(\PDO::FETCH_CLASS);
+        return $website;
+    }
+
+    public function getWebsiteById($websiteId) {
+        /** @var \PDOStatement $query */
+        $query = $this->database->prepare('SELECT * FROM websites WHERE website_id = :id');
+        $query->setFetchMode(\PDO::FETCH_CLASS, Website::class);
+        $query->bindParam(':id', $websiteId, \PDO::PARAM_INT);
+        $query->execute();
+        /** @var Website $website */
+        $website = $query->fetch(\PDO::FETCH_CLASS, Website::class);
         return $website;
     }
 
@@ -37,15 +48,25 @@ class WebsiteManager
         return $query->fetchAll(\PDO::FETCH_CLASS, Website::class);
     }
 
+    public function getByHostname($url)
+    {
+        /** @var \PDOStatement $query */
+        $query = $this->database->prepare('SELECT * FROM websites WHERE hostname = :host');
+        $query->bindParam(':host', $url, \PDO::PARAM_STR);
+        $query->execute();
+        return $query->fetchAll(\PDO::FETCH_CLASS, Website::class);
+    }
+
     public function create(User $user, $name, $hostname)
     {
         $userId = $user->getUserId();
         /** @var \PDOStatement $statement */
-        $statement = $this->database->prepare('INSERT INTO websites (name, hostname, user_id) VALUES (:name, :host, :user)');
+        $statement = $this->database->prepare('INSERT INTO websites(name, hostname, user_id) VALUES (:name, :host, :user)');
         $statement->bindParam(':name', $name, \PDO::PARAM_STR);
         $statement->bindParam(':host', $hostname, \PDO::PARAM_STR);
         $statement->bindParam(':user', $userId, \PDO::PARAM_INT);
         $statement->execute();
+        
         return $this->database->lastInsertId();
     }
 

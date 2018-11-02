@@ -2,7 +2,7 @@
 
 namespace Snowdog\DevTest\Component;
 
-use DI\InvokerInterface;
+use DI\Container;
 
 class Menu
 {
@@ -10,7 +10,7 @@ class Menu
     const SORT_ORDER = 'sortorder';
     private static $instance;
     private $items = [];
-    /** @var InvokerInterface */
+    /** @var Container */
     private $container;
 
     /** @return Menu */
@@ -21,14 +21,14 @@ class Menu
         }
         return self::$instance;
     }
-    
+
     public static function register($className, $sortOrder)
     {
         $instance = self::getInstance();
         $instance->registerMenuItem($className, $sortOrder);
     }
 
-    public static function setContainer(InvokerInterface $container)
+    public static function setContainer(Container $container)
     {
         $instance = self::getInstance();
         $instance->registerContainer($container);
@@ -67,7 +67,7 @@ class Menu
         ];
     }
 
-    private function registerContainer(InvokerInterface $container)
+    private function registerContainer(Container $container)
     {
         $this->container = $container;
     }

@@ -111,4 +111,14 @@ class PageManager
         return (string) $statement->fetchColumn();
     }
 
+    public function getByUrl($url)
+    {
+        $statement = $this->database->prepare('
+            SELECT * FROM pages WHERE url = :url
+        ');
+        $statement->bindParam(':url', $url);
+        $statement->execute();
+         return $statement->fetchObject(Page::class);
+    }
+
 }
